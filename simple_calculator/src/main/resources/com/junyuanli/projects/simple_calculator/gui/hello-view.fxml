@@ -6,14 +6,89 @@
 <?import javafx.scene.layout.GridPane?>
 <GridPane fx:controller="com.junyuanli.projects.simple_calculator.gui.CalculatorController"
           xmlns:fx="http://javafx.com/fxml"
-          alignment="CENTER"
+          alignment="TOP_CENTER"
           hgap="10"
           vgap="10">
     <VBox alignment="CENTER" spacing="20.0">
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
-        <TextField fx:id="calculatorDisplay"/>
-        <Button text="2" onAction="#onNumberTwoClick"/>
+        <TextField fx:id="calculatorDisplay"
+                   prefWidth="300"
+                   editable="false"/>
+        <GridPane>
+            <Button text="1"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onNumberButtonClick"
+                    GridPane.rowIndex="0"
+                    GridPane.columnIndex="0"/>
+            <Button text="2"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onNumberButtonClick"
+                    GridPane.rowIndex="0"
+                    GridPane.columnIndex="1"/>
+            <Button text="3"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onNumberButtonClick"
+                    GridPane.rowIndex="0"
+                    GridPane.columnIndex="2"/>
+            <Button text="4"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onNumberButtonClick"
+                    GridPane.rowIndex="1"
+                    GridPane.columnIndex="0"/>
+            <Button text="5"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onNumberButtonClick"
+                    GridPane.rowIndex="1"
+                    GridPane.columnIndex="1"/>
+            <Button text="6"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onNumberButtonClick"
+                    GridPane.rowIndex="1"
+                    GridPane.columnIndex="2"/>
+            <Button text="7"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onNumberButtonClick"
+                    GridPane.rowIndex="2"
+                    GridPane.columnIndex="0"/>
+            <Button text="8"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onNumberButtonClick"
+                    GridPane.rowIndex="2"
+                    GridPane.columnIndex="1"/>
+            <Button text="9"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onNumberButtonClick"
+                    GridPane.rowIndex="2"
+                    GridPane.columnIndex="2"/>
+            <Button text="+/-"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onSwitchSignButtonClick"
+                    GridPane.rowIndex="3"
+                    GridPane.columnIndex="0"/>
+            <Button text="0"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onNumberButtonClick"
+                    GridPane.rowIndex="3"
+                    GridPane.columnIndex="1"/>
+            <Button text="C"
+                    prefWidth="100"
+                    prefHeight="60"
+                    onAction="#onClearButtonClick"
+                    GridPane.rowIndex="3"
+                    GridPane.columnIndex="2"/>
+        </GridPane>
     </VBox>
 </GridPane>
