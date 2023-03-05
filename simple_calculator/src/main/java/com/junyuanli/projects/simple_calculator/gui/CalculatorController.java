@@ -17,18 +17,24 @@ public class CalculatorController {
 
     @FXML
     protected void onSwitchSignButtonClick() {
+        String processedDisplayText;
         String calculatorDisplayText = calculatorDisplay.getText();
         if (calculatorDisplayText.startsWith("-")) {
-            calculatorDisplayText = calculatorDisplayText.substring(1);
+            processedDisplayText = calculatorDisplayText.substring(1);
         } else {
-            calculatorDisplayText = "-".concat(calculatorDisplayText);
+            processedDisplayText = "-".concat(calculatorDisplayText);
         }
-        calculatorDisplay.setText(calculatorDisplayText);
+        calculatorDisplay.setText(processedDisplayText);
     }
 
     @FXML
     protected void onClearButtonClick() {
         calculatorDisplay.clear();
+    }
+
+    @FXML
+    protected void onOperatorButtonClick() {
+
     }
 
 }
