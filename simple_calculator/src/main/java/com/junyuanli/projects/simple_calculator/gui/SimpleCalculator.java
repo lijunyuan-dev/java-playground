@@ -15,6 +15,7 @@ public class SimpleCalculator extends Application {
         stage.setTitle("Calculator");
         stage.setScene(scene);
         stage.show();
+//        System.out.println(javafx.scene.text.Font.getFamilies());
     }
 
     public static void main(String[] args) {
