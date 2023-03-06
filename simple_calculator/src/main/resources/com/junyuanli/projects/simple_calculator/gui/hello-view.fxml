@@ -4,7 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
-<GridPane fx:controller="com.junyuanli.projects.simple_calculator.gui.CalculatorController"
+<GridPane fx:id="calculatorWindow"
+          fx:controller="com.junyuanli.projects.simple_calculator.gui.CalculatorController"
           xmlns:fx="http://javafx.com/fxml"
           alignment="TOP_CENTER"
           hgap="10"
