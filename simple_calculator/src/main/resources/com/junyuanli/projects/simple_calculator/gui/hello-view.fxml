@@ -112,21 +112,21 @@
                     style="-fx-font-size:20"
                     prefWidth="100"
                     maxHeight="60"
-                    onAction="#onClearButtonClick"
+                    onAction="#onOperatorButtonClick"
                     GridPane.rowIndex="0"
                     GridPane.columnIndex="3"/>
             <Button text="-"
                     style="-fx-font-size:20"
                     prefWidth="100"
                     maxHeight="60"
-                    onAction="#onClearButtonClick"
+                    onAction="#onOperatorButtonClick"
                     GridPane.rowIndex="1"
                     GridPane.columnIndex="3"/>
             <Button text="+"
                     style="-fx-font-size:20"
                     prefWidth="100"
                     maxHeight="60"
-                    onAction="#onClearButtonClick"
+                    onAction="#onOperatorButtonClick"
                     GridPane.rowIndex="2"
                     GridPane.columnIndex="3"/>
         </GridPane>

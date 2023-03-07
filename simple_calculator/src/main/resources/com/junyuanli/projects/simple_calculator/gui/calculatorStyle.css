@@ -1,5 +1,6 @@
 .textfield {
     /* Research fallback fonts, test jlink-ed image on another computer (possibly mac) */
+    /*        System.out.println(javafx.scene.text.Font.getFamilies());                */
     -fx-font-family: "Courier New";
     -fx-font-size: 20;
 }
