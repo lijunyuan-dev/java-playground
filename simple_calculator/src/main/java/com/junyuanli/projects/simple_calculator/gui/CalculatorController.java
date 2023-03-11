@@ -1,5 +1,6 @@
 package com.junyuanli.projects.simple_calculator.gui;
 
+import com.junyuanli.projects.simple_calculator.core.CalculatorStateManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,6 +56,7 @@ public class CalculatorController {
 
     @FXML
     private void onOperatorButtonClick() {
-
+        CalculatorStateManager calculatorStateManager = CalculatorStateManager.getCalculatorStateManager();
+//        calculatorStateManager.updateCalculatorState()
     }
 }

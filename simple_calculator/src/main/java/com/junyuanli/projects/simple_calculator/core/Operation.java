@@ -1,45 +1,48 @@
 package com.junyuanli.projects.simple_calculator.core;
 
+import java.util.ArrayList;
+
 public abstract class Operation {
-    public abstract double calculate() throws Division.ZeroDivisionException;
+    abstract double calculate(ArrayList<Double> operands);
+    abstract int getRequiredNumOfOperands();
 }
 
 abstract class BinaryOperation extends Operation {
-    protected double operand1;
-    protected double operand2;
-
-
+    @Override
+    public int getRequiredNumOfOperands() {
+        return 2;
+    }
 }
 
 class Addition extends BinaryOperation {
     @Override
-    public double calculate() {
-        return operand1 + operand2;
+    public double calculate(ArrayList<Double> operands) {
+        return operands.get(0) + operands.get(1);
     }
 }
 
 class Subtraction extends BinaryOperation {
     @Override
-    public double calculate() {
-        return operand1 - operand2;
+    public double calculate(ArrayList<Double> operands) {
+        return operands.get(0) - operands.get(1);
     }
 }
 
 class Multiplication extends BinaryOperation {
     @Override
-    public double calculate() {
-        return operand1 * operand2;
+    public double calculate(ArrayList<Double> operands) {
+        return operands.get(0) * operands.get(1);
     }
 }
 
-class Division extends BinaryOperation {
-    @Override
-    public double calculate() throws ZeroDivisionException {
-        if (operand2 == 0.0d) {
-            throw new ZeroDivisionException();
-        }
-        return operand1 * operand2;
-    }
-    static class ZeroDivisionException extends Exception {
-    }
-}
+//class Division extends BinaryOperation {
+//    @Override
+//    public double calculate() throws ZeroDivisionException {
+//        if (operand2 == 0.0d) {
+//            throw new ZeroDivisionException();
+//        }
+//        return operand1 / operand2;
+//    }
+//    static class ZeroDivisionException extends Exception {
+//    }
+//}
