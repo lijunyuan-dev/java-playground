@@ -129,6 +129,13 @@
                     onAction="#onOperatorButtonClick"
                     GridPane.rowIndex="2"
                     GridPane.columnIndex="3"/>
+            <Button text="="
+                    style="-fx-font-size:20"
+                    prefWidth="100"
+                    maxHeight="60"
+                    onAction="#onEvaluateButtonClick"
+                    GridPane.rowIndex="3"
+                    GridPane.columnIndex="3"/>
         </GridPane>
     </VBox>
     <stylesheets>

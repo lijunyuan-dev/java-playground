@@ -6,45 +6,55 @@ import java.util.HashMap;
 public final class CalculatorStateManager {
 
     // Singleton Pattern
-    private static final CalculatorStateManager manager = new CalculatorStateManager();
+    private static final CalculatorStateManager calculatorStateManager = new CalculatorStateManager();
     private final HashMap<String, Operation> allOperations = new HashMap<>();
+    private final ArrayList<Double> operands = new ArrayList<>();
     private Operation currentOperation = null;
-    private ArrayList<Double> operands;
-    private int numberOfOperands = 0;
-    private double calculationResult = 0.0d;
+
+
+    static {
+        initializeOperations();
+    }
 
     // Prevent out-of-class instantiation
     private CalculatorStateManager() {}
 
     public static CalculatorStateManager getCalculatorStateManager() {
-        initializeOperations();
-        return manager;
+        return CalculatorStateManager.calculatorStateManager;
     }
 
     private static void initializeOperations() {
-        manager.allOperations.putIfAbsent("+", new Addition());
-        manager.allOperations.putIfAbsent("-", new Subtraction());
-        manager.allOperations.putIfAbsent("×", new Multiplication());
+        CalculatorStateManager.calculatorStateManager.allOperations.putIfAbsent("+", new Addition());
+        CalculatorStateManager.calculatorStateManager.allOperations.putIfAbsent("-", new Subtraction());
+        CalculatorStateManager.calculatorStateManager.allOperations.putIfAbsent("×", new Multiplication());
     }
 
-    /**
-     * Expected to be called on click of an operation button.
-     * Returns true if state of calculator is updated, false otherwise.
-     */
-    public boolean updateCalculatorState(String newOperand, String newOperation) {
-        if (currentOperation.getRequiredNumOfOperands() == operands.size()) {
-            calculationResult = currentOperation.calculate(operands);
-            currentOperation = allOperations.get(newOperation);
-            return true;
-        }
+    public void addOperand(String newOperand) {
         operands.add(Double.parseDouble(newOperand));
-        currentOperation = allOperations.get(newOperation);
-        return false;
     }
 
-    public double getCalculationResult() {
-        double result = calculationResult;
-        calculationResult = 0.0d;
-        return result;
+    public void changeOperation(String newOperator) {
+        currentOperation = allOperations.get(newOperator);
+    }
+
+    public boolean isReadyToCalculate() {
+        return (currentOperation != null) && (currentOperation.getRequiredNumOfOperands() == operands.size());
+    }
+
+    public void attemptCalculation() {
+        if (isReadyToCalculate()) {
+            double calculationResult = currentOperation.calculate(operands);
+            operands.clear();
+            operands.add(calculationResult);
+        }
+    }
+
+    public void resetCalculator() {
+        operands.clear();
+        currentOperation = null;
+    }
+
+    public ArrayList<Double> getOperands() {
+        return this.operands;
     }
 }

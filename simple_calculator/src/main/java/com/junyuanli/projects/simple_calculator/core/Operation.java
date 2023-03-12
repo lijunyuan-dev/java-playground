@@ -2,9 +2,10 @@ package com.junyuanli.projects.simple_calculator.core;
 
 import java.util.ArrayList;
 
-public abstract class Operation {
-    abstract double calculate(ArrayList<Double> operands);
+abstract class Operation {
     abstract int getRequiredNumOfOperands();
+    abstract double calculate(ArrayList<Double> operands);
+
 }
 
 abstract class BinaryOperation extends Operation {

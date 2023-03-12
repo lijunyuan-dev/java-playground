@@ -9,6 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class CalculatorController {
+
+    private final CalculatorStateManager calculatorStateManager = CalculatorStateManager.getCalculatorStateManager();
+    private int previousOperatorPosition = -1;
     @FXML
     private GridPane calculatorWindow;
     @FXML
@@ -50,13 +53,51 @@ public class CalculatorController {
 
     @FXML
     private void onClearButtonClick() {
+        calculatorStateManager.resetCalculator();
+        previousOperatorPosition = -1;
         calculatorDisplay.clear();
         calculatorDisplay.setText("0");
     }
 
     @FXML
-    private void onOperatorButtonClick() {
-        CalculatorStateManager calculatorStateManager = CalculatorStateManager.getCalculatorStateManager();
-//        calculatorStateManager.updateCalculatorState()
+    private void onOperatorButtonClick(ActionEvent event) {
+        if (event.getSource() instanceof Button button) {
+            if (calculatorDisplay.getText().length() == previousOperatorPosition + 1) {
+                calculatorDisplay.replaceText(
+                        previousOperatorPosition, previousOperatorPosition + 1, button.getText());
+                calculatorStateManager.changeOperation(button.getText());
+                return;
+            }
+            calculatorStateManager.addOperand(
+                    calculatorDisplay.getText().substring(previousOperatorPosition + 1));
+
+            boolean isReadyToCalculate = calculatorStateManager.isReadyToCalculate();
+            calculatorStateManager.attemptCalculation();
+            calculatorStateManager.changeOperation(button.getText());
+
+            if (isReadyToCalculate) {
+                calculatorDisplay.setText(calculatorStateManager.getOperands().get(0).toString());
+            }
+
+            calculatorDisplay.appendText(button.getText());
+            previousOperatorPosition = calculatorDisplay.getLength() - 1;
+            return;
+        }
+        throw new UnsupportedOperationException();
+    }
+
+    @FXML
+    private void onEvaluateButtonClick() {
+        calculatorStateManager.addOperand(
+                calculatorDisplay.getText().substring(previousOperatorPosition + 1));
+
+        boolean isReadyToCalculate = calculatorStateManager.isReadyToCalculate();
+        calculatorStateManager.attemptCalculation();
+
+        if (isReadyToCalculate) {
+            calculatorDisplay.setText(calculatorStateManager.getOperands().get(0).toString());
+        }
+
+        previousOperatorPosition = calculatorDisplay.getLength() - 1;
     }
 }
