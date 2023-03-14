@@ -14,6 +14,7 @@ public final class CalculatorStateManager {
 
     static {
         initializeOperations();
+        initializeOperands();
     }
 
     // Prevent out-of-class instantiation
@@ -29,8 +30,16 @@ public final class CalculatorStateManager {
         CalculatorStateManager.calculatorStateManager.allOperations.putIfAbsent("×", new Multiplication());
     }
 
+    private static void initializeOperands() {
+        CalculatorStateManager.calculatorStateManager.operands.add(0.0d);
+    }
+
     public void addOperand(String newOperand) {
         operands.add(Double.parseDouble(newOperand));
+    }
+
+    public void updateOperand(String newOperand, int operandIndex) {
+        operands.set(operandIndex, Double.parseDouble(newOperand));
     }
 
     public void changeOperation(String newOperator) {

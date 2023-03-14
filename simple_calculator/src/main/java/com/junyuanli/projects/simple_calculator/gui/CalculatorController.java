@@ -11,7 +11,7 @@ import javafx.scene.layout.GridPane;
 public class CalculatorController {
 
     private final CalculatorStateManager calculatorStateManager = CalculatorStateManager.getCalculatorStateManager();
-    private int previousOperatorPosition = -1;
+    private boolean endingInNumber = true;
     @FXML
     private GridPane calculatorWindow;
     @FXML
@@ -54,33 +54,29 @@ public class CalculatorController {
     @FXML
     private void onClearButtonClick() {
         calculatorStateManager.resetCalculator();
-        previousOperatorPosition = -1;
         calculatorDisplay.clear();
         calculatorDisplay.setText("0");
     }
 
+    /**
+     * Expected behavior:
+     * 1. Change the operator when not ending with number
+     * 2. Add this operator to the end if ending with number and operand number is not enough (is not ready to calculate).
+     * 3. Attempt calculation if ending with number and operand number is enough (is ready to calculate).
+     * **/
+
     @FXML
-    private void onOperatorButtonClick(ActionEvent event) {
+    private void onBinaryOperatorButtonClick(ActionEvent event) {
         if (event.getSource() instanceof Button button) {
-            if (calculatorDisplay.getText().length() == previousOperatorPosition + 1) {
-                calculatorDisplay.replaceText(
-                        previousOperatorPosition, previousOperatorPosition + 1, button.getText());
-                calculatorStateManager.changeOperation(button.getText());
-                return;
+            if (endingInNumber) {
+                if (calculatorStateManager.isReadyToCalculate()) {
+                    // Attempt calculation
+                } else {
+                    // Add this operator to the end
+                }
+            } else {
+                // Change Operator
             }
-            calculatorStateManager.addOperand(
-                    calculatorDisplay.getText().substring(previousOperatorPosition + 1));
-
-            boolean isReadyToCalculate = calculatorStateManager.isReadyToCalculate();
-            calculatorStateManager.attemptCalculation();
-            calculatorStateManager.changeOperation(button.getText());
-
-            if (isReadyToCalculate) {
-                calculatorDisplay.setText(calculatorStateManager.getOperands().get(0).toString());
-            }
-
-            calculatorDisplay.appendText(button.getText());
-            previousOperatorPosition = calculatorDisplay.getLength() - 1;
             return;
         }
         throw new UnsupportedOperationException();
@@ -88,16 +84,7 @@ public class CalculatorController {
 
     @FXML
     private void onEvaluateButtonClick() {
-        calculatorStateManager.addOperand(
-                calculatorDisplay.getText().substring(previousOperatorPosition + 1));
 
-        boolean isReadyToCalculate = calculatorStateManager.isReadyToCalculate();
-        calculatorStateManager.attemptCalculation();
-
-        if (isReadyToCalculate) {
-            calculatorDisplay.setText(calculatorStateManager.getOperands().get(0).toString());
-        }
-
-        previousOperatorPosition = calculatorDisplay.getLength() - 1;
     }
+
 }
