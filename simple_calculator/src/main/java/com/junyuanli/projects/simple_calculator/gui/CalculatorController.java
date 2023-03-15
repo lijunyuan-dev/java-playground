@@ -12,6 +12,7 @@ public class CalculatorController {
 
     private final CalculatorStateManager calculatorStateManager = CalculatorStateManager.getCalculatorStateManager();
     private boolean endingInNumber = true;
+    private int previousDisplayLength = 0;
     @FXML
     private GridPane calculatorWindow;
     @FXML
@@ -68,14 +69,26 @@ public class CalculatorController {
     @FXML
     private void onBinaryOperatorButtonClick(ActionEvent event) {
         if (event.getSource() instanceof Button button) {
+            String newOperator = button.getText();
             if (endingInNumber) {
                 if (calculatorStateManager.isReadyToCalculate()) {
-                    // Attempt calculation
+
                 } else {
-                    // Add this operator to the end
+                    calculatorStateManager.changeOperation(newOperator);
+                    // if no operator yet, this means we're changing the first operand
+                    // otherwise we're adding an operand
+                    if (calculatorStateManager.getCurrentOperation() == null) {
+                        
+                    } else {
+
+                    }
+                    calculatorDisplay.appendText(newOperator);
+                    previousDisplayLength += 1;
                 }
             } else {
-                // Change Operator
+                calculatorStateManager.changeOperation(newOperator);
+                int displayLength = calculatorDisplay.getLength();
+                calculatorDisplay.replaceText(displayLength - 1, displayLength, newOperator);
             }
             return;
         }

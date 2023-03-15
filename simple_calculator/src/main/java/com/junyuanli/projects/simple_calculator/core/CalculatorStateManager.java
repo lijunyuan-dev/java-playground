@@ -66,4 +66,8 @@ public final class CalculatorStateManager {
     public ArrayList<Double> getOperands() {
         return this.operands;
     }
+
+    public Operation getCurrentOperation() {
+        return currentOperation;
+    }
 }
