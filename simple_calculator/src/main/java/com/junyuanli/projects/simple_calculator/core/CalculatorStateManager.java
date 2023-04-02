@@ -60,6 +60,7 @@ public final class CalculatorStateManager {
 
     public void resetCalculator() {
         operands.clear();
+        operands.add(0.0d);
         currentOperation = null;
     }
 

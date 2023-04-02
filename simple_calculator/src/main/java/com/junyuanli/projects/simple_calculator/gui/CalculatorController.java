@@ -20,18 +20,19 @@ public class CalculatorController {
 
     @FXML
     public void initialize() {
-        calculatorDisplay.setText("0");
+        this.calculatorDisplay.setText("0");
         Platform.runLater(() -> calculatorWindow.requestFocus());
     }
 
     @FXML
     private void onNumberButtonClick(ActionEvent event) {
         if (event.getSource() instanceof Button button) {
-            if (calculatorDisplay.getText().equals("0")) {
-                calculatorDisplay.replaceText(0, 1, button.getText());
+            if (this.calculatorDisplay.getText().equals("0")) {
+                this.calculatorDisplay.replaceText(0, 1, button.getText());
                 return;
             }
-            calculatorDisplay.appendText(button.getText());
+            this.calculatorDisplay.appendText(button.getText());
+            this.endingInNumber = true;
             return;
         }
         throw new UnsupportedOperationException();
@@ -40,7 +41,7 @@ public class CalculatorController {
     @FXML
     private void onSwitchSignButtonClick() {
         String processedDisplayText;
-        String calculatorDisplayText = calculatorDisplay.getText();
+        String calculatorDisplayText = this.calculatorDisplay.getText();
         if (calculatorDisplayText.equals("0")) {
             return;
         }
@@ -49,14 +50,14 @@ public class CalculatorController {
         } else {
             processedDisplayText = "-".concat(calculatorDisplayText);
         }
-        calculatorDisplay.setText(processedDisplayText);
+        this.calculatorDisplay.setText(processedDisplayText);
     }
 
     @FXML
     private void onClearButtonClick() {
-        calculatorStateManager.resetCalculator();
-        calculatorDisplay.clear();
-        calculatorDisplay.setText("0");
+        this.calculatorStateManager.resetCalculator();
+        this.previousDisplayLength = 0;
+        this.calculatorDisplay.setText("0");
     }
 
     /**
@@ -70,25 +71,33 @@ public class CalculatorController {
     private void onBinaryOperatorButtonClick(ActionEvent event) {
         if (event.getSource() instanceof Button button) {
             String newOperator = button.getText();
-            if (endingInNumber) {
-                if (calculatorStateManager.isReadyToCalculate()) {
+            int displayLength = this.calculatorDisplay.getLength();
+            if (this.endingInNumber) {
+                if (this.calculatorStateManager.isReadyToCalculate()) {
 
                 } else {
-                    calculatorStateManager.changeOperation(newOperator);
+                    assert this.calculatorStateManager.getOperands().size() == 1;
                     // if no operator yet, this means we're changing the first operand
                     // otherwise we're adding an operand
-                    if (calculatorStateManager.getCurrentOperation() == null) {
-                        
+                    if (this.calculatorStateManager.getCurrentOperation() == null) {
+                        this.calculatorStateManager.updateOperand(this.calculatorDisplay.getText(), 0);
+                        this.previousDisplayLength = displayLength;
                     } else {
-
+                        this.calculatorStateManager.addOperand(
+                                this.calculatorDisplay.getText(
+                                        this.previousDisplayLength, displayLength
+                                )
+                        );
+//                        System.out.println(calculatorStateManager.getOperands());
                     }
-                    calculatorDisplay.appendText(newOperator);
-                    previousDisplayLength += 1;
+                    this.calculatorStateManager.changeOperation(newOperator);
+                    this.calculatorDisplay.appendText(newOperator);
+                    this.endingInNumber = false;
+                    this.previousDisplayLength += 1;
                 }
             } else {
-                calculatorStateManager.changeOperation(newOperator);
-                int displayLength = calculatorDisplay.getLength();
-                calculatorDisplay.replaceText(displayLength - 1, displayLength, newOperator);
+                this.calculatorStateManager.changeOperation(newOperator);
+                this.calculatorDisplay.replaceText(displayLength - 1, displayLength, newOperator);
             }
             return;
         }
