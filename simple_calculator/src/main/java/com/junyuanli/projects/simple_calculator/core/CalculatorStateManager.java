@@ -17,13 +17,6 @@ public final class CalculatorStateManager {
         initializeOperands();
     }
 
-    // Prevent out-of-class instantiation
-    private CalculatorStateManager() {}
-
-    public static CalculatorStateManager getCalculatorStateManager() {
-        return CalculatorStateManager.calculatorStateManager;
-    }
-
     private static void initializeOperations() {
         CalculatorStateManager.calculatorStateManager.allOperations.putIfAbsent("+", new Addition());
         CalculatorStateManager.calculatorStateManager.allOperations.putIfAbsent("-", new Subtraction());
@@ -32,6 +25,13 @@ public final class CalculatorStateManager {
 
     private static void initializeOperands() {
         CalculatorStateManager.calculatorStateManager.operands.add(0.0d);
+    }
+
+    // Prevent out-of-class instantiation
+    private CalculatorStateManager() {}
+
+    public static CalculatorStateManager getCalculatorStateManager() {
+        return CalculatorStateManager.calculatorStateManager;
     }
 
     public void addOperand(String newOperand) {
@@ -51,11 +51,9 @@ public final class CalculatorStateManager {
     }
 
     public void attemptCalculation() {
-        if (isReadyToCalculate()) {
-            double calculationResult = currentOperation.calculate(operands);
-            operands.clear();
-            operands.add(calculationResult);
-        }
+        double calculationResult = currentOperation.calculate(operands);
+        operands.clear();
+        operands.add(calculationResult);
     }
 
     public void resetCalculator() {
